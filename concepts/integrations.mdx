@@ -1,0 +1,190 @@
+---
+title: "Integrations"
+description: "Connect WHAWIT to your observability stack, CI/CD pipelines, version control, and incident management tools"
+---
+
+## Overview
+
+WHAWIT is designed as an intelligence layer that works with your existing tools rather than replacing them. Connect your observability platforms, version control systems, CI/CD pipelines, and incident management tools to get the most out of WHAWIT's capabilities.
+
+## Observability platforms
+
+WHAWIT ingests telemetry from the platforms you already use to collect logs, metrics, and traces.
+
+<CardGroup cols={2}>
+  <Card title="Datadog" icon="dog">
+    Connect your Datadog account to pull logs, metrics, APM traces, and monitors into WHAWIT for intelligent analysis.
+  </Card>
+  <Card title="New Relic" icon="chart-line">
+    Integrate with New Relic One to access logs, distributed tracing, and infrastructure metrics.
+  </Card>
+  <Card title="AWS CloudWatch" icon="aws">
+    Pull CloudWatch Logs, metrics, and alarms from your AWS accounts.
+  </Card>
+  <Card title="Elastic / ELK" icon="magnifying-glass">
+    Connect to Elasticsearch and Kibana to analyze logs and APM data stored in your Elastic cluster.
+  </Card>
+  <Card title="Splunk" icon="bolt">
+    Integrate with Splunk Cloud or Splunk Enterprise for log and event analysis.
+  </Card>
+  <Card title="Grafana / Prometheus" icon="chart-area">
+    Connect to Grafana Cloud or self-hosted Prometheus for metrics and alerting data.
+  </Card>
+  <Card title="Google Cloud Operations" icon="google">
+    Pull logs and metrics from Google Cloud Logging and Monitoring.
+  </Card>
+  <Card title="Azure Monitor" icon="microsoft">
+    Integrate with Azure Monitor for logs, metrics, and Application Insights data.
+  </Card>
+  <Card title="Sentry" icon="bug">
+    Connect Sentry to pull error tracking, performance monitoring, and release health data into WHAWIT.
+  </Card>
+  <Card title="BetterStack" icon="signal">
+    Integrate with BetterStack for uptime monitoring, incident management, and log aggregation.
+  </Card>
+</CardGroup>
+
+<Tip>
+  Don't see your observability platform? Contact us—we're continuously adding new integrations.
+</Tip>
+
+## Version control and CI/CD
+
+WHAWIT's autonomous reliability features connect incidents back to code and deployments, enabling root cause analysis and improvement recommendations.
+
+<CardGroup cols={2}>
+  <Card title="GitHub" icon="github">
+    Connect repositories to correlate incidents with commits, pull requests, and deployments. WHAWIT can also open PRs with recommended fixes.
+  </Card>
+  <Card title="GitLab" icon="gitlab">
+    Integrate with GitLab repositories and CI/CD pipelines for full visibility into code changes and deployments.
+  </Card>
+  <Card title="Bitbucket" icon="bitbucket">
+    Connect Bitbucket repositories to link incidents with recent code changes.
+  </Card>
+  <Card title="Azure DevOps" icon="microsoft">
+    Integrate with Azure Repos and Azure Pipelines for code and deployment correlation.
+  </Card>
+</CardGroup>
+
+### CI/CD pipelines
+
+<CardGroup cols={2}>
+  <Card title="GitHub Actions" icon="play">
+    Track deployments triggered by GitHub Actions workflows.
+  </Card>
+  <Card title="Jenkins" icon="gear">
+    Connect Jenkins pipelines to correlate builds and deployments with production incidents.
+  </Card>
+  <Card title="CircleCI" icon="circle">
+    Integrate with CircleCI for deployment tracking and change correlation.
+  </Card>
+  <Card title="ArgoCD" icon="arrows-spin">
+    Connect ArgoCD for GitOps-based Kubernetes deployment visibility.
+  </Card>
+  <Card title="Vercel" icon="triangle">
+    Track Vercel deployments and correlate frontend incidents with deployment changes.
+  </Card>
+</CardGroup>
+
+## Incident management and alerting
+
+WHAWIT integrates with your existing incident management and alerting tools to streamline response workflows.
+
+<CardGroup cols={2}>
+  <Card title="PagerDuty" icon="bell">
+    Receive WHAWIT alerts in PagerDuty and enrich PagerDuty incidents with WHAWIT's intelligent analysis.
+  </Card>
+  <Card title="Opsgenie" icon="bullhorn">
+    Route alerts to Opsgenie and sync incident status between platforms.
+  </Card>
+  <Card title="Slack" icon="slack">
+    Get real-time incident notifications and summaries in Slack channels. Interact with WHAWIT directly from Slack.
+  </Card>
+  <Card title="Microsoft Teams" icon="microsoft">
+    Receive alerts and incident updates in Microsoft Teams channels.
+  </Card>
+  <Card title="Jira" icon="jira">
+    Create Jira tickets from WHAWIT incidents and recommendations. Track remediation work in your existing workflow.
+  </Card>
+  <Card title="ServiceNow" icon="ticket">
+    Integrate with ServiceNow ITSM for incident and change management workflows.
+  </Card>
+</CardGroup>
+
+## Cloud providers
+
+WHAWIT can connect directly to your cloud infrastructure for deeper visibility into resources and events.
+
+<CardGroup cols={2}>
+  <Card title="Amazon Web Services" icon="aws">
+    Connect AWS accounts to access CloudTrail events, EC2/ECS/EKS metadata, and infrastructure context.
+  </Card>
+  <Card title="Google Cloud Platform" icon="google">
+    Integrate with GCP projects for GKE, Cloud Run, and infrastructure visibility.
+  </Card>
+  <Card title="Microsoft Azure" icon="microsoft">
+    Connect Azure subscriptions for AKS, App Service, and resource metadata.
+  </Card>
+</CardGroup>
+
+## Kubernetes and container platforms
+
+WHAWIT provides deep integration with container orchestration platforms for service-level visibility.
+
+<CardGroup cols={2}>
+  <Card title="Kubernetes" icon="dharmachakra">
+    Connect to Kubernetes clusters (EKS, GKE, AKS, or self-managed) for pod, deployment, and service visibility.
+  </Card>
+  <Card title="Docker" icon="docker">
+    Integrate with Docker environments for container-level context.
+  </Card>
+</CardGroup>
+
+## Authentication and SSO
+
+Enterprise customers can integrate WHAWIT with their identity providers for secure, centralized access management.
+
+<CardGroup cols={2}>
+  <Card title="Okta" icon="key">
+    Enable SSO with Okta for seamless authentication and user provisioning.
+  </Card>
+  <Card title="Azure AD / Entra ID" icon="microsoft">
+    Integrate with Microsoft Entra ID (Azure AD) for enterprise SSO.
+  </Card>
+  <Card title="Google Workspace" icon="google">
+    Use Google Workspace as your identity provider for WHAWIT access.
+  </Card>
+  <Card title="SAML 2.0" icon="lock">
+    Connect any SAML 2.0 compatible identity provider.
+  </Card>
+</CardGroup>
+
+## Webhooks and API
+
+For custom integrations, WHAWIT provides:
+
+- **Outgoing webhooks**: Send incident events, recommendations, and alerts to any HTTP endpoint.
+- **REST API**: Programmatically access incidents, insights, and configurations.
+- **Event streams**: Subscribe to real-time event feeds for custom processing.
+
+<Note>
+  See the WHAWIT API documentation for details on building custom integrations.
+</Note>
+
+## Getting started with integrations
+
+1. Navigate to **Settings → Integrations** in the WHAWIT app.
+2. Select the platform you want to connect.
+3. Follow the setup wizard to provide credentials and configure the integration.
+4. Verify the connection and start seeing data flow into WHAWIT.
+
+<CardGroup cols={2}>
+  <Card title="Follow the quickstart" icon="rocket" href="/quickstart">
+    Step-by-step guide to connecting your first integrations.
+  </Card>
+  <Card title="Architecture overview" icon="diagram-project" href="/concepts/architecture">
+    Learn how WHAWIT's intelligence layer works with your integrated tools.
+  </Card>
+</CardGroup>
+

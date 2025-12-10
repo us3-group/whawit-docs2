@@ -1,97 +1,86 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "Overview"
+description: "Intelligent observability and autonomous reliability engineering on top of your existing stacks"
 ---
 
-## Setting up
+## Why WHAWIT
 
-Get your documentation site up and running in minutes.
+Modern systems rely on distributed architectures and third-party services, which makes outages both more likely and more expensive.
+Downtime routinely costs from hundreds of thousands to millions of dollars per hour, and every extra minute of MTTR directly impacts the bottom line ([WHAWIT long whitepaper](file://WHAWIT - Long Version.pdf)).
+
+At the same time, teams are overwhelmed by a telemetry explosion: logs, metrics, and traces grow faster than budgets.
+Organizations routinely ingest hundreds of gigabytes of data per day, yet engineers still spend a large share of their time manually sifting through tools during incidents instead of building and improving systems.
+
+WHAWIT is an **intelligent observability and autonomous reliability** platform that sits on top of your existing observability stack (Datadog, New Relic, CloudWatch, Elastic, and more).
+Instead of adding yet another dashboard, WHAWIT turns raw telemetry into explanations, guidance, and code-level improvements.
+
+## What WHAWIT does
+
+<Columns cols={2}>
+  <Card
+    title="Intelligent observability"
+    icon="brain"
+  >
+    Continuously analyzes logs, metrics, and traces to detect anomalies and explain what is going wrong, not just surface charts.
+  </Card>
+  <Card
+    title="On-Call Hub"
+    icon="phone"
+  >
+    A dedicated incident workspace with timelines, natural-language summaries, and deep links into your existing tools.
+  </Card>
+  <Card
+    title="Autonomous reliability engineering"
+    icon="code-commit"
+  >
+    Correlates incidents with code and configuration, then proposes patches and improvements so each incident strengthens your system.
+  </Card>
+  <Card
+    title="Better economics"
+    icon="chart-line-up"
+  >
+    Reduces MTTR, recovers engineering time from manual triage, and helps you extract more value from existing observability spend.
+  </Card>
+</Columns>
+
+## Start with WHAWIT
 
 <Card
-  title="Start here"
+  title="Get started in minutes"
   icon="rocket"
   href="/quickstart"
   horizontal
 >
-  Follow our three step quickstart guide.
+  Connect WHAWIT to your existing observability tools and experience your first intelligent incident explanation.
 </Card>
-
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
 
 <Columns cols={2}>
   <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
+    title="Understand the architecture"
+    icon="diagram-project"
+    href="/concepts/architecture"
   >
-    Edit your docs locally and preview them in real time.
+    Learn how WHAWIT’s intelligence layer, On-Call Hub, and autonomous feedback loop fit into your stack.
   </Card>
   <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
+    title="See it in action"
+    icon="film"
+    href="/demos/overview"
   >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+    Watch Arcade walkthroughs of WHAWIT handling real-world incident and reliability scenarios.
   </Card>
   <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
+    title="Read the research"
+    icon="file-lines"
+    href="/resources/whitepapers"
   >
-    Auto-generate API documentation from OpenAPI specifications.
+    Dive into the economic and operational analysis behind WHAWIT's design.
+  </Card>
+  <Card
+    title="Executive overview"
+    icon="briefcase"
+    href="/concepts/executive-overview"
+  >
+    Share a concise, ROI-focused summary of WHAWIT with stakeholders.
   </Card>
 </Columns>
-
-## Create beautiful pages
-
-Everything you need to create world-class documentation.
-
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
-
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>

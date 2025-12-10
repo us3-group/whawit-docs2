@@ -1,33 +1,68 @@
+title: 'API overview'
+description: 'Integrate WHAWIT with your observability stack, incident tooling, and CI/CD pipelines'
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
----
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## What the WHAWIT API does
 
-## Welcome
+The WHAWIT API lets you automate and extend the platform so it fits cleanly into your existing tooling.
+Typical use cases include:
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+- Syncing incident and insight data into ticketing systems.
+- Building custom internal dashboards on top of WHAWIT’s incident understanding.
+- Managing services, environments, and integrations as code.
+- Exporting recommendations and code-level findings into your engineering workflow.
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+<Info>
+  The examples in this section are placeholders. Replace them with real endpoints and payloads as your WHAWIT API stabilizes.
+</Info>
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+WHAWIT uses Bearer tokens for authentication.
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+```http
+Authorization: Bearer YOUR_API_TOKEN
 ```
+
+Tokens should be kept secret and rotated regularly.
+Use environment variables or your secrets manager rather than hard-coding tokens in source control.
+
+## Example endpoints
+
+The starter kit includes placeholder endpoints that you can repurpose for WHAWIT:
+
+<CardGroup cols={2}>
+  <Card
+    title="List incidents"
+    icon="list"
+    href="/api-reference/endpoint/get"
+  >
+    Replace with an endpoint that lists recent incidents with summaries, severity, and affected services.
+  </Card>
+  <Card
+    title="Create recommendation"
+    icon="wand-magic-sparkles"
+    href="/api-reference/endpoint/create"
+  >
+    Replace with an endpoint for creating or tracking reliability recommendations.
+  </Card>
+  <Card
+    title="Dismiss or resolve items"
+    icon="check"
+    href="/api-reference/endpoint/delete"
+  >
+    Replace with an endpoint that archives or resolves recommendations or incidents.
+  </Card>
+  <Card
+    title="Incident webhooks"
+    icon="bell"
+    href="/api-reference/endpoint/webhook"
+  >
+    Replace with an endpoint that documents how WHAWIT posts incident and insight webhooks into your systems.
+  </Card>
+</CardGroup>
+
+## OpenAPI specification
+
+Once your WHAWIT API is defined, update `openapi.json` in this folder (or point to a remote spec) so the reference pages stay in sync with the live API.
+Until then, treat the existing `openapi.json` and endpoint pages as scaffolding for future work.

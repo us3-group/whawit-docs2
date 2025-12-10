@@ -1,80 +1,135 @@
 ---
 title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+description: "Connect WHAWIT to your observability stack and resolve your first incident with intelligent explanations"
 ---
 
-## Get started in three steps
+## Overview
 
-Get your documentation site running locally and make your first customization.
+WHAWIT sits on top of your existing observability tools to interpret telemetry, reduce MTTR, and recover engineering time from manual incident triage.
+In this quickstart, you will connect WHAWIT to your stack, configure your first services, and walk through an example incident in the On-Call Hub.
 
-### Step 1: Set up your local environment
+<Info>
+  This guide assumes you already have at least one observability platform in place (for example Datadog, New Relic, CloudWatch, or Elastic) and that it is receiving
+  production telemetry.
+</Info>
+
+## Step 1: Access WHAWIT
+
+<Steps>
+<Step title="Sign in or create an account">
+
+1. Go to `https://app.whawit.ai`.
+2. Sign in with your existing account or create a new one.
+
+<Check>
+You should see the WHAWIT dashboard with no services configured yet.
+</Check>
+
+</Step>
+
+<Step title="Invite your team (optional)">
+
+Add SREs, platform engineers, and developers who participate in incident response so they can access the On-Call Hub and incident history.
+
+</Step>
+</Steps>
+
+## Step 2: Connect observability sources
 
 <AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
+  <Accordion icon="waveform" title="Connect Datadog">
+    1. In WHAWIT, navigate to **Integrations → Datadog**.
+    2. Follow the prompts to create an API key in Datadog with read-only access.
+    3. Paste the API key into WHAWIT and select the services or tags you want WHAWIT to monitor first.
+
+    <Tip>
+      Start with a small set of critical services so you can validate WHAWIT’s behavior before rolling out broadly.
+    </Tip>
   </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
+
+  <Accordion icon="cloud" title="Connect CloudWatch, New Relic, or Elastic">
+    1. Open **Integrations** and choose your provider (CloudWatch, New Relic, Elastic, or others).
+    2. Provide the required credentials (for example, AWS IAM role, New Relic API key, or Elastic endpoint and token).
+    3. Confirm which log groups, metrics, or indexes WHAWIT should analyze.
   </Accordion>
 </AccordionGroup>
 
-### Step 2: Deploy your changes
+<Note>
+  WHAWIT does not replace your observability stack. It reads telemetry from your existing tools and adds an intelligence layer on top.
+</Note>
+
+## Step 3: Define services and environments
 
 <AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+  <Accordion icon="gears" title="Create services in WHAWIT">
+    1. Go to **Settings → Services**.
+    2. Create a service for each critical application or microservice (for example, `checkout-api`, `search-service`).
+    3. Map each WHAWIT service to the relevant telemetry from your observability tools (for example, Datadog tags, AWS log groups).
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
-
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
+    <Check>
+      When a service is correctly mapped, you should see recent telemetry samples in the WHAWIT UI.
+    </Check>
+  </Accordion>
+  <Accordion icon="layer-group" title="Configure environments">
+    Define environments such as `production`, `staging`, or `sandbox` so WHAWIT can prioritize incidents and apply different alerting rules.
   </Accordion>
 </AccordionGroup>
 
-### Step 3: Go live
+## Step 4: Experience your first intelligent incident
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+<Steps>
+<Step title="Trigger or wait for an incident">
+
+- If you have an upcoming test window or game day, introduce a controlled failure in a non-production environment.
+- Otherwise, wait for WHAWIT to detect an anomaly in your production telemetry.
+
+</Step>
+
+<Step title="Use the On-Call Hub">
+
+1. Open the incident in the **On-Call Hub**.
+2. Read the natural-language summary that WHAWIT generates from logs, metrics, and traces.
+3. Review the event timeline to see what changed, in what order, and which services were impacted first.
+4. Use the deep links into your existing tools if you need to validate details.
+
+<Tip>
+  The goal is to reach a credible hypothesis about the incident cause in minutes, not in the first 30–60 minutes of the outage window
+  ([full discussion in the WHAWIT long whitepaper](file://WHAWIT - Long Version.pdf)).
+</Tip>
+
+</Step>
+
+<Step title="Capture learnings and improvements">
+
+After resolution, use WHAWIT’s recommendations to:
+
+- Identify which code or configuration changes were involved.
+- Capture post-incident notes directly in the incident record.
+- Optionally, export insights into your ticketing system or backlog.
+
+</Step>
+</Steps>
 
 ## Next steps
 
-Now that you have your docs running, explore these key features:
+Now that you have WHAWIT connected and have seen an example incident, explore these next steps:
 
 <CardGroup cols={2}>
 
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
+<Card title="Deep dive into architecture" icon="diagram-project" href="/concepts/architecture">
+  Understand how WHAWIT’s intelligence layer models your systems and telemetry.
 </Card>
 
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
+<Card title="Executive overview" icon="briefcase" href="/concepts/executive-overview">
+  Share a short, ROI-focused overview of WHAWIT with stakeholders.
 </Card>
 
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
+<Card title="Watch demos" icon="film" href="/demos/overview">
+  See Arcade walkthroughs of WHAWIT handling incidents and telemetry overload.
 </Card>
 
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
+<Card title="Read the whitepapers" icon="file-lines" href="/resources/whitepapers">
+  Dive into the research on downtime economics and autonomous reliability engineering.
 </Card>
 
 </CardGroup>
-
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>
