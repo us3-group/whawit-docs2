@@ -8,6 +8,11 @@
     "dark": "#1D4ED8"
   },
   "favicon": "/images/w-240.png",
+  "analytics": {
+    "ga4": {
+      "measurementId": "G-LN3W1FXJD3"
+    }
+  },
   "navigation": {
     "tabs": [
       {
@@ -23,17 +28,22 @@
           {
             "group": "Concepts",
             "pages": [
+              "concepts/overview",
+            
               "concepts/architecture",
+              "concepts/agentic-triage",
               "concepts/integrations",
               "concepts/security-enterprise",
-              "concepts/executive-overview"
+              "concepts/roi"
             ]
           },
           {
             "group": "Demos & resources",
             "pages": [
               "demos/overview",
-              "resources/whitepapers"
+              "demos/opentelemetry-gcp",
+              "resources/whitepapers",
+              "resources/videos"
             ]
           },
           {

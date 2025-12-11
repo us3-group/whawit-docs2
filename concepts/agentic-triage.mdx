@@ -1,0 +1,72 @@
+---
+title: "Agentic Triage Mode"
+description: "Interactive, AI-driven troubleshooting for deeper incident analysis"
+---
+
+## Overview
+
+Agentic Triage Mode transforms the troubleshooting experience from a static analysis into an interactive dialogue. Instead of just receiving a generated summary, you can now collaborate with an intelligent agent to explore root causes, query logs, and validate hypotheses in real-time.
+
+This mode empowers engineers to "go deeper" into an incident without needing to manually run complex queries or sift through thousands of log lines.
+
+{/* 
+  TODO: Upload screenshots of the Agentic Triage interface to:
+  - /images/agentic-triage-light.png
+  - /images/agentic-triage-dark.png
+*/}
+{/*
+<img
+  className="block dark:hidden"
+  src="/images/agentic-triage-light.png"
+  alt="Agentic Triage Interface"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/agentic-triage-dark.png"
+  alt="Agentic Triage Interface"
+/>
+*/}
+
+## Key Capabilities
+
+### Interactive Investigation
+Engage in a natural language conversation to ask specific questions about the incident. The agent understands context from your observability stack and can perform targeted queries to answer your questions.
+
+- **Ask "Why?"**: Drill down into specific error messages or anomalies.
+- **Request specific data**: Ask for logs from a specific timeframe or service.
+- **Verify hypotheses**: Ask the agent to check if a recent deployment or configuration change could be the cause.
+
+### Deep Dive Analysis
+The agent doesn't just look at surface-level signals. It can correlate data across different sources to find hidden patterns.
+
+- **Log Analysis**: Automatically scans thousands of log lines to find relevant error patterns.
+- **Metric Correlation**: Checks if spikes in error rates correlate with resource usage or other metrics.
+- **Context Awareness**: Remembers the history of the conversation and the incident details.
+
+### Actionable Insights
+The goal of Agentic Triage is to get you to a solution faster.
+
+- **Remediation Suggestions**: The agent can propose specific steps to fix the issue.
+- **Code-Level Context**: If available, it can point to specific lines of code that might be responsible.
+- **Ticket Creation**: Seamlessly integrate with ticketing systems to capture the analysis.
+
+## How to Use
+
+1. **Start Triage**: From an incident analysis page, click the "Start Triage" or "Chat with Agent" button.
+2. **Review Initial Analysis**: The agent presents a summary of what it knows so far.
+3. **Ask Questions**: Use the chat interface to probe deeper. For example:
+   - "Show me the logs for the `api-service` around the time of the error."
+   - "Are there any database connection timeouts?"
+   - "Did this start happening after the last deployment?"
+4. **Refine & Resolve**: Use the agent's findings to confirm the root cause and determine the best course of action.
+
+## Example Workflow
+
+**User**: "Give me more details about the warnings related to the quizzes."
+
+**Agent**: "Based on the available log analysis, there are warnings related to submitting offline quizzes to Canvas. These warnings indicate that some offline quiz attempts cannot be submitted because they do not meet Canvas's student participation requirements..."
+
+**User**: "Is this affecting all users or just a specific group?"
+
+**Agent**: "Analyzing the user IDs in the logs, it appears to be concentrated on a specific set of users in the 'staging' environment..."
+

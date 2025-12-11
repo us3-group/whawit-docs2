@@ -1,0 +1,85 @@
+---
+title: "OpenTelemetry Astronomy Shop on GKE"
+description: "How WHAWIT troubleshoots a polyglot microservices demo on Google Kubernetes Engine"
+---
+
+## Overview
+
+<div style={{ position: 'relative', paddingBottom: 'calc(64.639% + 41px)', height: '0px', width: '100%', marginBottom: '20px' }}>
+  <iframe
+    src="https://demo.arcade.software/uD9bkVcK7zXdHIMz96p3?embed&embed_mobile=tab&embed_desktop=inline&show_copy_link=true"
+    title="WHAWIT in action with GCP and Kubernetes"
+    frameBorder="0"
+    loading="lazy"
+    allowFullScreen
+    allow="clipboard-write"
+    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', colorScheme: 'light' }}
+  />
+</div>
+
+This guide details how WHAWIT interacts with the OpenTelemetry "Astronomy Shop" demo deployed on Google Kubernetes Engine (GKE). This scenario demonstrates WHAWIT's ability to analyze complex, distributed microservices architectures and correlate infrastructure issues with code repositories.
+
+## The Scenario
+
+The **OpenTelemetry Astronomy Shop** is a microservices-based application intended to illustrate the use of OpenTelemetry. It consists of over a dozen microservices written in different languages (Go, Java, Python, .NET, etc.) communicating via gRPC and HTTP.
+
+We have deployed this application to a **GKE Autopilot** cluster to simulate a realistic production environment where infrastructure constraints (like resource quotas) can impact application stability.
+
+## Repository Structure
+
+To manage this deployment and enable WHAWIT's intelligent analysis, we use two GitHub repositories:
+
+### 1. Infrastructure Repository (`whawit-demos/opentelemetry-demo-codeops`)
+[View on GitHub](https://github.com/whawit-demos/opentelemetry-demo-codeops)
+
+This repository contains the **Infrastructure as Code (IaC)** and deployment configurations.
+- **Terraform**: Defines the GKE cluster, VPCs, and networking.
+- **Helm**: Contains the `opentelemetry-demo` chart and values files defining resource limits (`LimitRange`), quotas (`ResourceQuota`), and scaling settings.
+- **ArgoCD**: (Optional) GitOps configurations.
+
+**Why WHAWIT connects here**: 
+Incidents are often caused by infrastructure constraints, not just bad code. WHAWIT uses this repository to understand the *topology* of the cluster and the *constraints* (CPU/Memory limits) applied to namespaces.
+
+### 2. Application Repository (`whawit-demos/opentelemetry-demo`)
+[View on GitHub](https://github.com/whawit-demos/opentelemetry-demo)
+
+This repository contains the **source code** for the microservices.
+- **Business Logic**: The actual code for `frontend`, `cartservice`, `checkoutservice`, etc.
+- **Instrumentation**: OpenTelemetry SDK setup.
+
+**Why WHAWIT connects here**:
+When a service fails due to a bug or unhandled exception, WHAWIT correlates the stack trace or error log back to the specific commit and line of code in this repository.
+
+![Architecture Diagram](/images/otel-demo-architecture.png)
+
+## Troubleshooting with WHAWIT
+
+WHAWIT acts as an **Intelligence Layer** on top of your existing observability stack (Google Cloud Logging and Managed Prometheus in this case).
+
+### 1. Detection
+WHAWIT continuously ingests logs and metrics. In this scenario, it detects a `CrashLoopBackOff` event for the `fraud-detection` service. 
+
+![K9s View](/images/otel-demo-k9s.png)
+
+Simultaneously, it sees error logs in Google Cloud Logging indicating a failure to create pods or containers.
+
+![GCP Logs](/images/otel-demo-gcp-logs.png)
+
+### 2. Correlation
+WHAWIT analyzes the telemetry and correlates it with the connected repositories.
+- It identifies the `fraud-detection` service is failing.
+- It scans the `codeops` repository and finds `LimitRange` and `ResourceQuota` definitions in the `helm/` directory.
+- It recognizes that the error messages in the logs (e.g., "exceeded quota") match the constraints defined in the infrastructure code.
+
+### 3. Analysis
+Instead of just alerting "Pod Failed", WHAWIT provides a comprehensive analysis:
+- **Root Cause**: The pod is failing to start because the namespace has hit its ResourceQuota limits for CPU/Memory.
+- **Evidence**: Cites the specific log entries from GCP and the configuration files from the `codeops` repo.
+- **Recommendation**: Suggests increasing the quota in the `namespaces.tf` or Helm values, or optimizing the resource requests of the `fraud-detection` service.
+
+![Whawit Analysis](/images/otel-demo-whawit-analysis.png)
+
+## Summary
+
+By connecting to both the **Application** and **Infrastructure** repositories, WHAWIT bridges the gap between "Code" and "Ops". It doesn't just tell you *what* is broken, but *why*—whether it's a buggy commit in the app repo or a tight resource quota in the infra repo.
+
