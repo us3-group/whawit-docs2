@@ -41,7 +41,7 @@
             "group": "Demos & resources",
             "pages": [
               "demos/overview",
-              "demos/opentelemetry-gcp",
+              "demos/opentelemetry-shop",
               "resources/whitepapers",
               "resources/videos"
             ]

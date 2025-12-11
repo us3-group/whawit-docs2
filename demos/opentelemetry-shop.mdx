@@ -1,6 +1,6 @@
 ---
-title: "OpenTelemetry Astronomy Shop on GKE"
-description: "How WHAWIT troubleshoots a polyglot microservices demo on Google Kubernetes Engine"
+title: "OpenTelemetry Astronomy Shop"
+description: "How WHAWIT troubleshoots a polyglot microservices demo on Kubernetes"
 ---
 
 ## Overview
@@ -78,6 +78,27 @@ Instead of just alerting "Pod Failed", WHAWIT provides a comprehensive analysis:
 - **Recommendation**: Suggests increasing the quota in the `namespaces.tf` or Helm values, or optimizing the resource requests of the `fraud-detection` service.
 
 ![Whawit Analysis](/images/otel-demo-whawit-analysis.png)
+
+## Integration with Datadog
+
+While the example above uses Google Cloud Logging and Managed Prometheus, WHAWIT integrates equally well with **Datadog** for the same OpenTelemetry demo.
+
+### 1. Setup Changes
+In a Datadog-integrated environment, the observability data flow changes slightly:
+- **Datadog Agent**: Deployed as a DaemonSet on the GKE cluster to collect logs, metrics, and traces.
+- **OpenTelemetry Collector**: Configured to export traces and OTLP metrics to the Datadog Agent or directly to Datadog's backend.
+
+### 2. WHAWIT Configuration
+To enable this integration in WHAWIT:
+1.  Go to **Integrations** and select **Datadog**.
+2.  Provide your **Datadog API Key** and **Application Key**.
+3.  WHAWIT will begin indexing alerts, events, and relevant telemetry from Datadog.
+
+### 3. The WHAWIT Advantage
+Even with Datadog, the **Correlation** and **Analysis** steps remain powered by WHAWIT's unique engine:
+- **Alert Ingestion**: WHAWIT receives a monitor alert from Datadog (e.g., "High Error Rate on `frontend`").
+- **Deep Linking**: The WHAWIT incident summary provides direct links back to your Datadog dashboards and notebooks.
+- **Repo Connection**: WHAWIT still connects to `whawit-demos/opentelemetry-demo` to find the code causing the errors, enriching the Datadog alert with root cause analysis that points to specific commits or config files.
 
 ## Summary
 
