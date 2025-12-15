@@ -1,0 +1,356 @@
+---
+title: "MCP Server"
+description: "Connect AI assistants like Claude, Cursor, and Windsurf to Whawit using Model Context Protocol"
+icon: "server"
+---
+
+The Whawit MCP (Model Context Protocol) server enables AI assistants to access your observability data, search project knowledge, and analyze incidents programmatically.
+
+## Overview
+
+MCP is an open protocol that allows AI assistants to interact with external tools and data sources. The Whawit MCP server exposes eight tools that give AI assistants full access to:
+
+- Project knowledge base search
+- DevOps analysis and log querying
+- Incident details and correlated analyses
+- AI-optimized prompts for fixing issues
+
+## Hosted Server
+
+Whawit provides a hosted MCP server that requires no local installation:
+
+| Endpoint |
+|----------|
+| `https://mcp.whawit.ai/sse` |
+
+<Tip>
+The hosted server is recommended for most users. It stays up-to-date automatically and requires no maintenance.
+</Tip>
+
+## Quick Setup
+
+<Tabs>
+<Tab title="Cursor">
+
+Add to `~/.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "WHAWIT": {
+      "url": "https://mcp.whawit.ai/sse",
+      "headers": {
+        "X-API-Key": "YOUR_WHAWIT_API_KEY"
+      }
+    }
+  }
+}
+```
+
+</Tab>
+
+<Tab title="Claude Desktop">
+
+Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+
+```json
+{
+  "mcpServers": {
+    "WHAWIT": {
+      "url": "https://mcp.whawit.ai/sse",
+      "headers": {
+        "X-API-Key": "YOUR_WHAWIT_API_KEY"
+      }
+    }
+  }
+}
+```
+
+</Tab>
+
+<Tab title="Windsurf">
+
+Add to your Windsurf MCP configuration:
+
+```json
+{
+  "mcpServers": {
+    "WHAWIT": {
+      "url": "https://mcp.whawit.ai/sse",
+      "headers": {
+        "X-API-Key": "YOUR_WHAWIT_API_KEY"
+      }
+    }
+  }
+}
+```
+
+</Tab>
+</Tabs>
+
+## Getting Your API Key
+
+Generate your API key from the Whawit web app:
+
+1. Go to [app.whawit.ai](https://app.whawit.ai)
+2. Navigate to **Settings > User Settings**
+3. Generate a new API key
+
+<Warning>
+Keep your API key secure. Never commit it to version control or share it publicly.
+</Warning>
+
+## Available Tools
+
+The MCP server exposes eight tools for AI assistants:
+
+### whawit_context_search
+
+Search the project knowledge base for relevant context about architecture, business logic, and implementation details.
+
+<ParamField body="query" type="string" required>
+  The search query to find relevant context.
+</ParamField>
+
+<ParamField body="project" type="string" required>
+  The project URN to search in (e.g., `urn:project:abc123`).
+</ParamField>
+
+<ParamField body="types" type="array">
+  Types of contexts to search: `repo`, `project`, `user`, `other`. Defaults to all.
+</ParamField>
+
+<ParamField body="maxResults" type="number" default="3">
+  Maximum number of results to return. Range: 1-5.
+</ParamField>
+
+**Example prompt:**
+> Search for how authentication works in project urn:project:abc123
+
+---
+
+### whawit_devops_analysis
+
+Analyze logs, metrics, and system health from connected observability providers.
+
+<ParamField body="query" type="string" required>
+  What to analyze (e.g., "redis errors", "API failures", "high latency").
+</ParamField>
+
+<ParamField body="project" type="string" required>
+  The project URN to analyze.
+</ParamField>
+
+<ParamField body="from" type="string" default="1h">
+  Time range start (e.g., `15m`, `1h`, `24h`).
+</ParamField>
+
+<ParamField body="to" type="string" default="now">
+  Time range end.
+</ParamField>
+
+<ParamField body="verbosity" type="string" default="concise">
+  Output verbosity: `concise` or `detailed`.
+</ParamField>
+
+**Example prompt:**
+> Check for errors in the last 15 minutes in project urn:project:abc123
+
+---
+
+### whawit_project_info
+
+Get information about a project including its integrations, contexts, and configuration.
+
+<ParamField body="project" type="string" required>
+  The project URN to get info for.
+</ParamField>
+
+---
+
+### whawit_list_projects
+
+List all available projects for the authenticated user.
+
+This tool takes no parameters.
+
+---
+
+### whawit_get_analysis_full
+
+Get complete analysis data with full JSON payload and formatted markdown.
+
+<ParamField body="historyUrn" type="string" required>
+  The URN of the analysis to fetch (e.g., `urn:history:abc123`).
+</ParamField>
+
+<ParamField body="format" type="string" default="both">
+  Output format: `markdown`, `json`, or `both`.
+</ParamField>
+
+<ParamField body="includeRawLogs" type="boolean" default="false">
+  Include raw log events in output.
+</ParamField>
+
+<ParamField body="maxLength" type="number" default="15000">
+  Maximum output length in characters.
+</ParamField>
+
+---
+
+### whawit_get_incident_full
+
+Get full incident details with optional correlated analysis.
+
+<ParamField body="project" type="string" required>
+  The project URN to fetch incidents from.
+</ParamField>
+
+<ParamField body="incidentUrn" type="string">
+  Specific incident URN to fetch.
+</ParamField>
+
+<ParamField body="severity" type="string">
+  Filter by severity: `critical`, `high`, `medium`, `low`. Gets first matching open incident.
+</ParamField>
+
+<ParamField body="includeCorrelatedAnalysis" type="boolean" default="true">
+  Include the correlated analysis if available.
+</ParamField>
+
+---
+
+### whawit_generate_fix_prompt
+
+Generate an AI-ready prompt for fixing issues identified in an analysis.
+
+<ParamField body="historyUrn" type="string" required>
+  The URN of the analysis to generate a fix prompt for.
+</ParamField>
+
+<ParamField body="focus" type="string" default="all">
+  Focus area: `code`, `infrastructure`, or `all`.
+</ParamField>
+
+---
+
+### whawit_codebase_analysis_prompt
+
+Generate a prompt for analyzing a codebase based on project context.
+
+<ParamField body="project" type="string" required>
+  The project URN to analyze.
+</ParamField>
+
+<ParamField body="query" type="string">
+  Optional specific query to focus the analysis on.
+</ParamField>
+
+<ParamField body="includeArchitecture" type="boolean" default="true">
+  Include architecture/overview contexts.
+</ParamField>
+
+## MCP Resources
+
+The server also exposes projects as MCP resources:
+
+```
+whawit://project/{urn}
+```
+
+Reading a project resource returns:
+- Project details (name, description, URN)
+- Connected providers
+- Available contexts with titles and types
+
+## Authentication
+
+The MCP server uses API key authentication via the `X-API-Key` header:
+
+```
+X-API-Key: YOUR_WHAWIT_API_KEY
+```
+
+Generate your API key in the Whawit web app under **Settings > User Settings**.
+
+## Transport Protocols
+
+The Whawit MCP server supports two transport protocols:
+
+| Protocol | Endpoint | Use Case |
+|----------|----------|----------|
+| SSE (Server-Sent Events) | `/sse` | Traditional MCP clients |
+| StreamableHTTP | `/mcp` | Modern clients like Cursor |
+
+Both endpoints support the full MCP protocol including tools and resources.
+
+## Example Workflows
+
+<Frame caption="Using Whawit MCP tools in Cursor to analyze incidents">
+  <img src="/images/screenshots/vscode/whawit-analysis-details.png" alt="Whawit MCP tools in action" />
+</Frame>
+
+### Investigating an Incident
+
+1. Ask Claude to list your projects:
+   > "List my Whawit projects"
+
+2. Get incident details:
+   > "Get the latest critical incident from project urn:project:abc123"
+
+3. Generate a fix prompt:
+   > "Generate a fix prompt for the incident analysis"
+
+4. Let Claude implement the fix based on the context
+
+### Searching Documentation
+
+> "Search the project knowledge base for how the payment processing flow works in urn:project:payments"
+
+### Running DevOps Analysis
+
+> "Analyze Redis connection errors in the last 30 minutes for urn:project:backend"
+
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="Tools not appearing in Claude/Cursor">
+
+1. Verify your MCP configuration file syntax is valid JSON
+2. Restart Claude Desktop or Cursor after configuration changes
+3. Check that the access token is valid and not expired
+4. Ensure the MCP server URL is reachable from your network
+
+</Accordion>
+
+<Accordion title="Authentication errors">
+
+1. Verify your API key is correct
+2. Ensure the `X-API-Key` header is set correctly
+3. Generate a new API key from Settings > User Settings if needed
+
+</Accordion>
+
+<Accordion title="Project not found errors">
+
+1. Verify the project URN format is correct (`urn:project:...`)
+2. Ensure you have access to the project in Whawit
+3. Run `whawit_list_projects` to see available projects
+
+</Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+
+<Card title="VS Code Extension" icon="puzzle-piece" href="/ai-tools/vscode-extension">
+  Install the Whawit extension for integrated observability in your editor.
+</Card>
+
+<Card title="GitHub Copilot" icon="github" href="/ai-tools/github-copilot">
+  Use @whawit in GitHub Copilot Chat for AI-assisted analysis.
+</Card>
+
+</CardGroup>
+

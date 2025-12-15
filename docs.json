@@ -29,12 +29,22 @@
             "group": "Concepts",
             "pages": [
               "concepts/overview",
-            
               "concepts/architecture",
               "concepts/agentic-triage",
               "concepts/integrations",
               "concepts/security-enterprise",
               "concepts/roi"
+            ]
+          },
+          {
+            "group": "Developer Tools",
+            "pages": [
+              "ai-tools/vscode-extension",
+              "ai-tools/mcp-server",
+              "ai-tools/github-copilot",
+              "ai-tools/cursor",
+              "ai-tools/windsurf",
+              "ai-tools/claude-code"
             ]
           },
           {

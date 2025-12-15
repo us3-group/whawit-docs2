@@ -1,10 +1,72 @@
 ---
 title: "Cursor setup"
-description: "Configure Cursor for your documentation workflow"
+description: "Configure Cursor for your documentation workflow and connect to Whawit observability"
 icon: "arrow-pointer"
 ---
 
 Use Cursor to help write and maintain your documentation. This guide shows how to configure Cursor for better results on technical writing tasks and using Mintlify components.
+
+## Whawit MCP Integration
+
+Connect Cursor to Whawit for AI-assisted observability analysis. The Whawit MCP server gives Cursor's AI access to your logs, incidents, and project knowledge base.
+
+### Quick Setup
+
+Add to `~/.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "WHAWIT": {
+      "url": "https://mcp.whawit.ai/sse",
+      "headers": {
+        "X-API-Key": "YOUR_WHAWIT_API_KEY"
+      }
+    }
+  }
+}
+```
+
+<Tip>
+Get your API key from the [Whawit web app](https://app.whawit.ai) under Settings > User Settings.
+</Tip>
+
+### Available Tools
+
+Once configured, Cursor can use these Whawit tools:
+
+| Tool | Description |
+|------|-------------|
+| `whawit_context_search` | Search project knowledge base |
+| `whawit_devops_analysis` | Analyze logs and metrics |
+| `whawit_project_info` | Get project details |
+| `whawit_list_projects` | List available projects |
+| `whawit_get_analysis_full` | Get complete analysis data |
+| `whawit_get_incident_full` | Get incident details |
+| `whawit_generate_fix_prompt` | Generate fix prompts |
+| `whawit_codebase_analysis_prompt` | Generate analysis prompts |
+
+### Example Prompts
+
+After connecting, try these prompts in Cursor:
+
+```
+What Redis errors occurred in my backend project in the last hour?
+```
+
+```
+Get the latest critical incident and help me fix it
+```
+
+```
+Search the project knowledge base for how authentication works
+```
+
+<Note>
+See the full [MCP Server documentation](/ai-tools/mcp-server) for detailed tool schemas and configuration options.
+</Note>
+
+---
 
 ## Prerequisites
 

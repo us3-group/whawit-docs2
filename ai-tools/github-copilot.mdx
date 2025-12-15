@@ -1,0 +1,369 @@
+---
+title: "GitHub Copilot Integration"
+description: "Use @whawit in GitHub Copilot Chat for AI-assisted incident analysis and code fixes"
+icon: "github"
+---
+
+The Whawit VS Code extension integrates with GitHub Copilot, providing a chat participant (`@whawit`) and language model tools that give Copilot direct access to your observability data.
+
+## Overview
+
+With the Whawit Copilot integration, you can:
+
+- Ask `@whawit` about incidents and analyses in natural language
+- Use slash commands to fetch specific observability data
+- Let Copilot access Whawit tools automatically when analyzing code
+- Get AI-generated fix recommendations based on real incident data
+
+<Note>
+This integration requires both the Whawit VS Code extension and GitHub Copilot Chat to be installed and active.
+</Note>
+
+## Prerequisites
+
+- VS Code with GitHub Copilot Chat extension
+- Whawit VS Code extension installed and logged in
+- A project selected in Whawit
+
+## Chat Participant
+
+The `@whawit` chat participant appears in GitHub Copilot Chat when the Whawit extension is active.
+
+### Basic Usage
+
+Type `@whawit` in Copilot Chat followed by your question:
+
+```
+@whawit What are the recent errors in my system?
+@whawit Show me the latest analysis
+@whawit Are there any open incidents?
+```
+
+### Available Commands
+
+The chat participant supports five slash commands for specific actions:
+
+| Command | Description |
+|---------|-------------|
+| `/fix` | Get analysis context formatted for implementing fixes |
+| `/analyze` | Get analysis context for investigating the codebase |
+| `/explain` | Explain the current analysis in detail |
+| `/incidents` | List recent incidents for the project |
+| `/history` | Show recent analysis history |
+
+## Command Reference
+
+### /fix
+
+Fetches observability analysis data and formats it for implementing code fixes.
+
+**Usage:**
+```
+@whawit /fix
+@whawit /fix redis connection errors
+@whawit /fix urn:history:abc123
+```
+
+**What it returns:**
+- Summary of the issue
+- Root causes with confidence scores
+- Code issues with file locations and suggestions
+- Recommendations for fixing
+
+<Tip>
+After using `/fix`, Copilot has context about the issue and can help you implement the fix directly in your code.
+</Tip>
+
+---
+
+### /analyze
+
+Fetches analysis context for understanding and investigating codebase behavior.
+
+**Usage:**
+```
+@whawit /analyze
+@whawit /analyze high latency
+@whawit /analyze urn:history:abc123
+```
+
+**What it returns:**
+- Analysis summary and severity
+- Detailed analysis text
+- Affected entities and services
+- Timeline of events
+
+---
+
+### /explain
+
+Provides a detailed explanation of the currently loaded analysis.
+
+**Usage:**
+```
+@whawit /explain
+```
+
+<Note>
+You must first load an analysis using `/fix` or `/analyze` before using `/explain`.
+</Note>
+
+**What it returns:**
+- Full summary
+- Detailed analysis
+- Severity with justification
+- All root causes with evidence
+- Complete recommendations list
+
+---
+
+### /incidents
+
+Lists recent incidents for your selected project.
+
+**Usage:**
+```
+@whawit /incidents
+```
+
+**What it returns:**
+- Incident summary with severity indicator
+- Current status (open, closed, resolved, etc.)
+- Affected service name
+- Creation timestamp
+
+---
+
+### /history
+
+Shows recent analysis history for your project.
+
+**Usage:**
+```
+@whawit /history
+```
+
+**What it returns:**
+- Analysis titles and status
+- Timestamps
+- Severity levels
+- URNs for reference in other commands
+
+## Language Model Tools
+
+Beyond the chat participant, Whawit registers five language model tools that Copilot can call automatically when relevant:
+
+### whawit_getAnalysis
+
+Fetches full analysis data from Whawit including root causes, code issues, and recommendations.
+
+**When Copilot uses it:**
+- When you ask about recent issues or errors
+- When you reference a specific analysis by URN
+- When context about system problems would help answer your question
+
+**Input:**
+- `urn` (optional): Specific analysis URN to fetch
+
+---
+
+### whawit_getIncident
+
+Fetches incident details including correlated analysis data.
+
+**When Copilot uses it:**
+- When you ask about incidents or alerts
+- When you mention severity levels (critical, high, etc.)
+- When investigating production issues
+
+**Input:**
+- `urn` (optional): Specific incident URN
+- `severity` (optional): Filter by severity level
+
+---
+
+### whawit_getCodeContext
+
+Searches the project knowledge base for relevant architecture and technical context.
+
+**When Copilot uses it:**
+- When you ask how something works in the codebase
+- When you need architectural context
+- When looking for documentation about specific features
+
+**Input:**
+- `query` (optional): Search query for finding relevant context
+
+---
+
+### whawit_listAnalyses
+
+Lists recent analyses from Whawit with URNs and summaries.
+
+**When Copilot uses it:**
+- When you ask for a list of recent issues
+- When you want to see analysis history
+- When choosing which analysis to investigate
+
+**Input:**
+- `limit` (optional): Maximum number of results (default: 5)
+
+---
+
+### whawit_getProjectInfo
+
+Gets information about the current Whawit project including available contexts.
+
+**When Copilot uses it:**
+- When you ask about the project configuration
+- When checking what integrations are available
+- When verifying project setup
+
+## Example Workflows
+
+### Fixing an Incident
+
+<Steps>
+<Step title="Check for incidents">
+
+```
+@whawit /incidents
+```
+
+Review the list and note any critical or high severity incidents.
+
+</Step>
+
+<Step title="Get fix context">
+
+```
+@whawit /fix
+```
+
+This loads the most recent analysis with fix-oriented formatting.
+
+</Step>
+
+<Step title="Ask Copilot to implement">
+
+With the analysis context loaded, ask Copilot:
+
+```
+Based on the Whawit analysis, implement the recommended fix for the Redis connection timeout issue
+```
+
+Copilot now has full context about the issue and can generate appropriate code changes.
+
+</Step>
+</Steps>
+
+### Understanding System Architecture
+
+<Steps>
+<Step title="Load project context">
+
+```
+@whawit What is the architecture of the payment service?
+```
+
+Copilot uses `whawit_getCodeContext` to search the knowledge base.
+
+</Step>
+
+<Step title="Get detailed analysis">
+
+```
+@whawit /analyze payment processing flow
+```
+
+This fetches relevant analysis data about the payment system.
+
+</Step>
+
+<Step title="Ask follow-up questions">
+
+```
+@whawit /explain
+```
+
+Get a detailed breakdown of the loaded analysis.
+
+</Step>
+</Steps>
+
+### Daily Incident Review
+
+```
+@whawit /history
+@whawit /incidents
+@whawit Show me the most severe issue from today and what's needed to fix it
+```
+
+## Follow-up Suggestions
+
+After using `@whawit` commands, the chat participant provides contextual follow-up suggestions:
+
+- **After loading an analysis**: "Explain Analysis" and "Fix Issues" options appear
+- **After any command**: "View History" option for quick access to analysis list
+
+Click these follow-up buttons or continue the conversation naturally.
+
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="@whawit not appearing in Copilot Chat">
+
+1. Ensure the Whawit extension is installed and active
+2. Check that you're logged into Whawit (look for the status bar indicator)
+3. Restart VS Code to reload the extension
+4. Verify GitHub Copilot Chat extension is installed and working
+
+</Accordion>
+
+<Accordion title="Commands returning no data">
+
+1. Ensure a project is selected in Whawit
+2. Verify the project has analysis history and/or incidents
+3. Check the Output panel (`View > Output > Whawit`) for errors
+4. Try running `/history` first to confirm connectivity
+
+</Accordion>
+
+<Accordion title="Language model tools not being used">
+
+1. Copilot decides when to use tools based on your prompt
+2. Be specific in your questions to trigger tool usage
+3. Mention "Whawit" or "observability" to hint at relevant tools
+4. Use explicit `@whawit` commands for guaranteed tool access
+
+</Accordion>
+</AccordionGroup>
+
+## Tips for Best Results
+
+<Tip>
+**Be specific with queries**: Instead of "what's wrong?", try "what Redis errors occurred in the last hour?"
+</Tip>
+
+<Tip>
+**Reference analyses by URN**: When you see a URN in `/history` output, use it directly: `@whawit /fix urn:history:abc123`
+</Tip>
+
+<Tip>
+**Combine with code context**: After loading Whawit context, ask Copilot to look at specific files: "Now check `src/services/redis.ts` for the issue mentioned in the analysis"
+</Tip>
+
+## Next Steps
+
+<CardGroup cols={2}>
+
+<Card title="VS Code Extension" icon="puzzle-piece" href="/ai-tools/vscode-extension">
+  Full documentation for the Whawit VS Code extension.
+</Card>
+
+<Card title="MCP Server" icon="server" href="/ai-tools/mcp-server">
+  Connect other AI assistants to Whawit via Model Context Protocol.
+</Card>
+
+</CardGroup>
+

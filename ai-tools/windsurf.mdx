@@ -1,10 +1,72 @@
 ---
 title: "Windsurf setup"
-description: "Configure Windsurf for your documentation workflow"
+description: "Configure Windsurf for your documentation workflow and connect to Whawit observability"
 icon: "water"
 ---
 
 Configure Windsurf's Cascade AI assistant to help you write and maintain documentation. This guide shows how to set up Windsurf specifically for your Mintlify documentation workflow.
+
+## Whawit MCP Integration
+
+Connect Windsurf to Whawit for AI-assisted observability analysis. The Whawit MCP server gives Windsurf's Cascade AI access to your logs, incidents, and project knowledge base.
+
+### Setup
+
+Add to your Windsurf MCP configuration:
+
+```json
+{
+  "mcpServers": {
+    "WHAWIT": {
+      "url": "https://mcp.whawit.ai/sse",
+      "headers": {
+        "X-API-Key": "YOUR_WHAWIT_API_KEY"
+      }
+    }
+  }
+}
+```
+
+<Tip>
+Get your API key from the [Whawit web app](https://app.whawit.ai) under Settings > User Settings.
+</Tip>
+
+### Available Tools
+
+Once configured, Windsurf can use these Whawit tools:
+
+| Tool | Description |
+|------|-------------|
+| `whawit_context_search` | Search project knowledge base |
+| `whawit_devops_analysis` | Analyze logs and metrics |
+| `whawit_project_info` | Get project details |
+| `whawit_list_projects` | List available projects |
+| `whawit_get_analysis_full` | Get complete analysis data |
+| `whawit_get_incident_full` | Get incident details |
+| `whawit_generate_fix_prompt` | Generate fix prompts |
+| `whawit_codebase_analysis_prompt` | Generate analysis prompts |
+
+### Example Prompts
+
+After connecting, try these prompts in Windsurf:
+
+```
+What Redis errors occurred in my backend project in the last hour?
+```
+
+```
+Search the knowledge base for how the payment flow works
+```
+
+```
+Get the latest critical incident and suggest a fix
+```
+
+<Note>
+See the full [MCP Server documentation](/ai-tools/mcp-server) for detailed tool schemas and configuration options.
+</Note>
+
+---
 
 ## Prerequisites
 

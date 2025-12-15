@@ -1,0 +1,241 @@
+---
+title: "VS Code Extension"
+description: "Install and configure the Whawit extension for VS Code, Cursor, Windsurf, and other compatible editors"
+icon: "puzzle-piece"
+---
+
+The Whawit VS Code extension brings AI-powered observability directly into your editor. Query logs, analyze incidents, and get context-aware assistance without switching between tools.
+
+<Frame caption="Whawit extension sidebar showing projects, incidents, and analysis history">
+  <img src="/images/screenshots/vscode/whawit-sidebar-overview.png" alt="Whawit VS Code extension sidebar" />
+</Frame>
+
+## Features
+
+<CardGroup cols={2}>
+<Card title="Radar Chat" icon="comments">
+  Ask natural language questions about your logs, metrics, and system health directly in the editor.
+</Card>
+
+<Card title="Context Search" icon="magnifying-glass">
+  Search your project's knowledge base for architecture documentation, runbooks, and technical context.
+</Card>
+
+<Card title="Auto-detect Projects" icon="code-branch">
+  Automatically matches your workspace to Whawit projects based on Git remotes.
+</Card>
+
+<Card title="Incident Management" icon="bell">
+  View and manage incidents from connected observability providers without leaving your editor.
+</Card>
+</CardGroup>
+
+## Prerequisites
+
+- VS Code 1.90.0 or later (also compatible with Cursor, Windsurf, and Kiro)
+- A Whawit account ([sign up at whawit.ai](https://whawit.ai))
+- At least one project configured in Whawit with connected observability providers
+
+## Installation
+
+1. Open VS Code
+2. Go to Extensions (`Ctrl+Shift+X` or `Cmd+Shift+X`)
+3. Search for **Whawit**
+4. Click **Install**
+
+<Check>
+The Whawit icon appears in your Activity Bar after installation.
+</Check>
+
+## Getting Started
+
+<Steps>
+<Step title="Login to Whawit">
+
+Click the Whawit icon in the Activity Bar, then click **Login to Whawit**.
+
+The extension uses Auth0 for authentication. A browser window opens for you to complete the sign-in flow.
+
+<Tip>
+Your credentials are stored securely in VS Code's secret storage and persist across sessions.
+</Tip>
+
+</Step>
+
+<Step title="Select or auto-detect your project">
+
+If `whawit.autoDetectProject` is enabled (default), the extension automatically matches your workspace to a Whawit project based on Git remotes.
+
+To manually select a project:
+
+1. Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`)
+2. Run **Whawit: Select Project**
+3. Choose from the list of available projects
+
+<Check>
+The status bar shows your current project name when connected.
+</Check>
+
+</Step>
+
+<Step title="Open Radar Chat">
+
+Run **Whawit: Open Radar Chat** from the Command Palette or click the chat icon in the Projects view.
+
+<Frame caption="Radar Chat panel for querying logs and metrics">
+  <img src="/images/screenshots/vscode/whawit-radar-chat.png" alt="Whawit Radar Chat" />
+</Frame>
+
+Ask questions like:
+- "Show me errors from the last 15 minutes"
+- "What's causing high latency in the checkout service?"
+- "Are there any Redis connection issues?"
+
+</Step>
+</Steps>
+
+## Activity Bar Views
+
+The Whawit sidebar contains five views for managing your observability data:
+
+<Frame caption="Activity Bar views for projects, incidents, history, contexts, and integrations">
+  <img src="/images/screenshots/vscode/whawit-activity-bar-views.png" alt="Whawit Activity Bar views" />
+</Frame>
+
+### Projects
+
+Lists all Whawit projects you have access to. Click a project to select it as your working context. The currently matched project (based on your Git remote) is highlighted.
+
+### Incidents
+
+Shows open incidents for the selected project. Each incident displays:
+- Severity level (critical, high, medium, low)
+- Summary and service name
+- Current status
+- Creation timestamp
+
+Right-click an incident to send it to GitHub Copilot for analysis.
+
+### Analysis History
+
+Displays recent DevOps analyses run on your project. Each entry shows:
+- Analysis title and status
+- Severity assessment
+- Timestamp
+
+Click an entry to open the full analysis in an embedded browser panel.
+
+<Frame caption="Analysis details with root causes and recommendations">
+  <img src="/images/screenshots/vscode/whawit-analysis-details.png" alt="Whawit Analysis History view" />
+</Frame>
+
+### Contexts
+
+Lists the project's knowledge base contexts, including:
+- Repository documentation
+- Architecture overviews
+- User-defined technical context
+
+These contexts power the semantic search and AI assistance features.
+
+### Integrations
+
+Shows connected observability providers:
+- Datadog
+- AWS CloudWatch
+- New Relic
+- Google Cloud
+- Sentry
+- And more
+
+## Commands Reference
+
+| Command | Description |
+|---------|-------------|
+| `Whawit: Login` | Authenticate with your Whawit account |
+| `Whawit: Logout` | Sign out and clear stored credentials |
+| `Whawit: Open Radar Chat` | Open the Radar chat panel for DevOps Q&A |
+| `Whawit: Select Project` | Manually select a Whawit project |
+| `Whawit: Search Context` | Search the project knowledge base |
+| `Whawit: Manage Integrations` | Open the integrations management panel |
+| `Whawit: Analyze Current Workspace` | Trigger an analysis of your current workspace |
+| `Whawit: Refresh Projects` | Refresh the projects list |
+| `Whawit: Refresh History` | Refresh the analysis history |
+| `Whawit: Refresh Incidents` | Refresh the incidents list |
+| `Whawit: Open Web App` | Open the Whawit web app in an embedded browser |
+| `Whawit: Send to Copilot for Fix` | Send analysis to GitHub Copilot with fix instructions |
+| `Whawit: Copy as AI Prompt` | Copy analysis as a formatted prompt for AI assistants |
+
+## Configuration
+
+Configure the extension through VS Code settings (`Ctrl+,` or `Cmd+,`):
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| `whawit.autoDetectProject` | Auto-detect project from Git remote | `true` |
+| `whawit.showStatusBar` | Show Whawit status in the status bar | `true` |
+| `whawit.openAnalysisIn` | Where to open analysis results (`embedded` or `external`) | `embedded` |
+
+### AI Assistant Settings
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| `whawit.aiAssistant.preferredFormat` | Format when copying for AI (`markdown`, `json`, `both`) | `markdown` |
+| `whawit.aiAssistant.includeRawLogs` | Include raw log events in AI prompts | `false` |
+| `whawit.aiAssistant.maxContextLength` | Maximum context length in characters | `10000` |
+
+## Project Auto-Detection
+
+The extension automatically detects your Whawit project by matching Git remotes. The detection process:
+
+1. Reads `.git/config` from your workspace folders
+2. Extracts remote URLs (both HTTPS and SSH formats)
+3. Normalizes URLs for comparison
+4. Matches against repositories connected to your Whawit projects via GitHub integration
+
+<Note>
+Auto-detection requires a GitHub integration configured in Whawit with access to your repository.
+</Note>
+
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="Extension not detecting my project">
+
+1. Ensure your repository is connected via a GitHub integration in Whawit
+2. Verify the Git remote URL matches the repository URL in Whawit
+3. Try running **Whawit: Select Project** manually
+4. Check the Output panel (`View > Output > Whawit`) for error messages
+
+</Accordion>
+
+<Accordion title="Authentication issues">
+
+1. Run **Whawit: Logout** to clear stored credentials
+2. Run **Whawit: Login** to re-authenticate
+
+</Accordion>
+
+<Accordion title="Radar Chat not responding">
+
+1. Verify you have a project selected (check the status bar)
+2. Ensure the project has at least one log provider connected
+3. Check your network connection to `api.whawit.ai`
+
+</Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+
+<Card title="GitHub Copilot Integration" icon="github" href="/ai-tools/github-copilot">
+  Use @whawit in GitHub Copilot Chat for AI-assisted incident analysis.
+</Card>
+
+<Card title="MCP Server" icon="server" href="/ai-tools/mcp-server">
+  Connect Claude, Cursor, and other AI assistants to Whawit via MCP.
+</Card>
+
+</CardGroup>
+
